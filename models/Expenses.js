@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema
 
 let ExpenesesSchema = new Schema({
-    _id:{type: nunm},
     Housing: {type: Number},
     Groceries: {type: Number},
     Utilities: {type: Number},
@@ -14,4 +13,4 @@ let ExpenesesSchema = new Schema({
     Misc: {type: Number},
   });
 
-  export default mongoose.model("expenses", ExpensesSchema);
+  export default mongoose.model("expenses", ExpenesesSchema);

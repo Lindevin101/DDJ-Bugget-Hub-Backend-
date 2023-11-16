@@ -1,4 +1,4 @@
-import Budget from "../models/Budget";
+import Budget from "../models/Budget.js";
 
 export const createBudget = async (req, res) => {
   try {
@@ -14,7 +14,7 @@ export const createBudget = async (req, res) => {
   export const getBudget = async (req, res) => {
     try {
       const { id } = req.params;
-      const budget = await Budget.findById(id);
+      const budget = await Budget.findById(id).populate("user expenses")
   
       if (budget) {
         return res.json(budget);

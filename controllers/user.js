@@ -5,7 +5,7 @@ import User from "../models/User.js";
 
 // for development purposes
 let SALT_ROUNDS = 11;
-let TOKEN_KEY = "areallylonggoodkey";
+let TOKEN_KEY = "ddjbudget";
 
 // for production
 if (process.env.NODE_ENV === "production") {

@@ -30,3 +30,17 @@ export const editExpense = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+export const updateExpenses = async (req, res) => {
+    try {
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error.message });
+    }
+};
+export const deleteExpense = async (req, res) => {
+    try {
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error.message });
+    }
+};

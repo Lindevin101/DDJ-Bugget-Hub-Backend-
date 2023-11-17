@@ -1,23 +1,34 @@
+// adjust file paths based on your file structure
 import db from "./db/connection.js";
 import routes from "./routes/index.js";
 import express from "express";
-import cors from "cors";
-import logger from "morgan";
-import chalk from "chalk";
+import cors from "cors"; // ** We need this so that our frontend can talk to our backend
+import logger from "morgan"; // optional. this package gives us logs of our requests in the console
+import chalk from "chalk"; // optional. this package gives us access to colors for our console logs
 
+// INITIALIZE EXPRESS INSTANCE
 const app = express();
-const PORT = 3000;
 
+// DEFINE PORT
+const PORT = process.env.PORT || 3001;
+
+// MIDDLEWARE
 app.use(express.json());
 app.use(cors());
-app.use(logger("dev"));
+app.use(logger("dev")); // only add if you use morgan
 
-app.use("/api", routes)
+// MOUNNT ROUTES -- PREPEND ALL ROUTES WITH /whatever-you-want
+app.use("/api", routes);
 
+// CONNECT TO DATABASE
 db.on("connected", () => {
   console.clear();
-  console.log(chalk.blue("Connected to MongoDB!"));
+  console.log(chalk.blue("Connected to MongoDB!")); //delete chalk.blue if you aren't using chalk
+
+  // SET UP SERVER TO LISTEN FOR REQUESTS ON PORT
   app.listen(PORT, () => {
-    console.log(`Express server running on port ${PORT}`);
+    process.env.NODE_ENV === "production"
+      ? console.log(`Express server running in production on port ${PORT}`)
+      : console.log(`Express server running in development on: ${PORT}`);
   });
 });

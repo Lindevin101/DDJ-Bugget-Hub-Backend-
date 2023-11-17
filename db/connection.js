@@ -1,18 +1,23 @@
 import mongoose from "mongoose";
-import chalk from "chalk";
 
-mongoose.set("returnOriginal", false)
-mongoose.connect("mongodb://127.0.0.1:27017/DDJ-Budget-Hub-api")
-.catch((err) => {
-    console.log(`Error connection go MongoDB: ${err.message}`);
-})
+const MONGODB_URI =
+  process.env.DB_URL || "mongodb://127.0.0.1:27017/DDJ-Budget-Hub-api";
 
-mongoose.connection.on("disconnected", () => {
-  console.log(chalk.bold("Disconnected from MongoDB, my dude!"));
-});
+// This is needed if you use Model.findByIdAndUpdate method, specifically so that {new: true} is the default
+mongoose.set("returnOriginal", false);
 
-mongoose.connection.on("error", (err) => {
-  console.log(chalk.red(`MongoDB connection error: ${err}`));
-});
+mongoose
+  .connect(MONGODB_URI)
+  .catch((error) =>
+    console.log("Error connecting to MongoDB: ", error.message)
+  );
+
+mongoose.connection.on("disconnected", () =>
+  console.log(chalk.bold("Disconnected from MongoDB!"))
+);
+
+mongoose.connection.on("error", (error) =>
+  console.error(chalk.red(`MongoDB connection error: ${error}`))
+);
 
 export default mongoose.connection;

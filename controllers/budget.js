@@ -1,5 +1,22 @@
 import Budget from "../models/Budget.js";
 
+
+export const getBudgetForm = async (req, res) => {
+  try {
+    const budget = await Budget.find()
+
+    if (budget) {
+      return res.json(budget);
+    }
+
+    res.stats(404).json({ message: "Budget not found!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 export const createBudget = async (req, res) => {
   try {
     const budget = new Budget(req.body);

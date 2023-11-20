@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import User from "../models/User.js";
+import Budget from "../models/Budget.js";
 
 // for development purposes
 let SALT_ROUNDS = 11;
@@ -20,7 +21,7 @@ exp.setDate(today.getDate() + 30);
 
 export const signUp = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, income } = req.body;
     const password_digest = await bcrypt.hash(password, SALT_ROUNDS);
     const user = new User({
       username,
@@ -30,10 +31,19 @@ export const signUp = async (req, res) => {
 
     await user.save();
 
+    const userBudget = new Budget({
+      user: user,
+      income: income,
+      expenses: []
+    })
+
+    await userBudget.save()
+
     const payload = {
       id: user._id,
       username: user.username,
       email: user.email,
+      budgetId: userBudget._id,
       exp: parseInt(exp.getTime() / 1000),
     };
 

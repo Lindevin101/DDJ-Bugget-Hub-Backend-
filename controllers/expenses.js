@@ -23,6 +23,25 @@ export const addExpenseToBudget = async (req, res) => {
   }
 };
 
+export const addExpensesToUserBudget = async (req, res) => {
+  try {
+    const expenses = await Expenses.insertMany(req.body)
+
+    const { budgetId } = req.params;
+
+    const budget = await Budget.findByIdAndUpdate(budgetId, { $push: { expenses: { $each: expenses } } });
+
+    if (budget) {
+        return res.json(budget);
+    }
+  
+    res.stats(404).json({ message: "Budget not found!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
 export const editExpense = async (req, res) => {
   try {
   } catch (error) {

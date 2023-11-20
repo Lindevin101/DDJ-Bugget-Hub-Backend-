@@ -5,7 +5,6 @@ import express from "express";
 import cors from "cors"; // ** We need this so that our frontend can talk to our backend
 import logger from "morgan"; // optional. this package gives us logs of our requests in the console
 
-
 // INITIALIZE EXPRESS INSTANCE
 const app = express();
 

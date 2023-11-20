@@ -35,7 +35,7 @@ export const addExpensesToUserBudget = async (req, res) => {
         return res.json(budget);
     }
   
-    res.stats(404).json({ message: "Budget not found!" });
+    res.status(404).json({ message: "Budget not found!" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
@@ -44,18 +44,22 @@ export const addExpensesToUserBudget = async (req, res) => {
 
 export const editExpense = async (req, res) => {
   try {
+    const { expenseId } = req.params;
+
+    const expense = await Expenses.findByIdAndUpdate(expenseId, req.body)
+
+    if (expense) {
+      return res.json(expense)
+    }
+
+    res.status(404).json({ message: "Expense not found!"})
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
   }
 };
-export const updateExpenses = async (req, res) => {
-    try {
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: error.message });
-    }
-};
+
 export const deleteExpense = async (req, res) => {
     try {
       const { expenseId } = req.params
